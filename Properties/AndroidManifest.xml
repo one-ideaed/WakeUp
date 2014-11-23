@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="Cashflow_Monitor.Cashflow_Monitor">
+	<uses-sdk />
+	<application android:label="Cashflow Monitor" android:icon="@drawable/icon"></application>
+	<uses-permission android:name="android.permission.READ_SMS" />
+	<uses-permission android:name="android.permission.RECEIVE_SMS" />
+</manifest>
