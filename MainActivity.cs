@@ -30,7 +30,7 @@ namespace Cashflow_Monitor
 			counterText.SetText("2t", TextView.BufferType.Normal);
 			SmsReceiver smsReceiver = new SmsReceiver ();
 			Console.WriteLine ("Step 4");
-
+			//Test comment
 		}
 	}
 }
