@@ -38,7 +38,7 @@ namespace Cashflow_Monitor
 			notificationManager.Notify (notificationId, notification);
 			Console.Write ("Sms 2");
 			//((StockActivity)context).GetStocks ();
-
+			// DIO is here
 			//InvokeAbortBroadcast();
 		}
 	}
