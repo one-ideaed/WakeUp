@@ -1,0 +1,2 @@
+D:\XamarinSource\Tasky\Android_Starter\TaskyAndroid\bin\Debug\TaskyAndroid.dll
+D:\XamarinSource\Tasky\Android_Starter\Tasky.Core\bin\Debug\Tasky.Core.Anroid.dll
