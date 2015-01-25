@@ -5,30 +5,31 @@ namespace CM.Core {
 	/// <summary>
 	/// Manager classes are an abstraction on the data access layers
 	/// </summary>
+	/// TODO: add methods for other BusinessEntities
 	public static class Manager {
 
 		static Manager ()
 		{
 		}
 		
-		public static Task GetTask(int id)
+		public static Transaction GetTransaction(int id)
 		{
-			return TaskRepositoryADO.GetTask(id);
+			return Database.GetItem("Transaction",id);
 		}
 		
-		public static IList<Task> GetTasks ()
+		public static IList<Task> GetTransactions ()
 		{
-			return new List<Task>(TaskRepositoryADO.GetTasks());
+			return new List<Task>(Database.GetItems("Transaction"));
 		}
 		
-		public static int SaveTask (Task item)
+		public static int SaveTransaction (Transaction item)
 		{
-			return TaskRepositoryADO.SaveTask(item);
+			return Database.SaveItem("Transaction",item);
 		}
 		
-		public static int DeleteTask(int id)
+		public static int DeleteTransaction(int id)
 		{
-			return TaskRepositoryADO.DeleteTask(id);
+			return Database.DeleteItem("Transaction",id);
 		}
 	}
 }

@@ -12,18 +12,24 @@ namespace CM.Core
 	{
 		static object locker = new object ();
 
-		public SqliteConnection connection;
+		protected static SqliteConnection connection;
 
-		public string path;
+		protected static string dbPath;
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="Tasky.DL.TaskDatabase"/> TaskDatabase. 
-		/// if the database doesn't exist, it will create the database and all the tables.
-		/// </summary>
-		public Database (string dbPath) 
+		protected static Database db;
+
+		static Database()
 		{
-			var output = "";
-			path = dbPath;
+			db = new Database ();
+		}
+
+		//create somewhere a number of strings with command texts to switch getItem,getItems,saveItem and deleteItem methods
+
+
+		protected Database()
+		{
+			dbPath = dbFilePath;
+
 			// create the tables
 			bool exists = File.Exists (dbPath);
 
@@ -32,7 +38,8 @@ namespace CM.Core
 
 				connection.Open ();
 				var commands = new[] {
-					"CREATE TABLE [Items] (_id INTEGER PRIMARY KEY ASC, Name NTEXT, Notes NTEXT, Done INTEGER);"
+					"CREATE TABLE [Transactions] (_id INTEGER PRIMARY KEY ASC, TransactionType INTEGER, TransactionSource INTEGER, Amount REAL,TimeStamp INTEGER, Comment NTEXT);"
+					//add other tables
 				};
 				foreach (var command in commands) {
 					using (var c = connection.CreateCommand ()) {
@@ -43,20 +50,62 @@ namespace CM.Core
 			} else {
 				// already exists, do nothing. 
 			}
-			Console.WriteLine (output);
 		}
 
-		/// <summary>Convert from DataReader to Task object</summary>
-		Task FromReader (SqliteDataReader r) {
-			var t = new Task ();
-			t.ID = Convert.ToInt32 (r ["_id"]);
-			t.Name = r ["Name"].ToString ();
-			t.Notes = r ["Notes"].ToString ();
-			t.Done = Convert.ToInt32 (r ["Done"]) == 1 ? true : false;
-			return t;
+		protected static string dbFilePath
+		{
+			get{ 
+				var sqliteFilename = "CashflowMonitorDB.db3";
+				#if NETFX_CORE
+				var path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, sqliteFilename);
+				#else
+
+				#if SILVERLIGHT
+				// Windows Phone expects a local path, not absolute
+				var path = sqliteFilename;
+				#else
+
+				#if __ANDROID__
+				// Just use whatever directory SpecialFolder.Personal returns
+				string libraryPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal); ;
+				#else
+				// we need to put in /Library/ on iOS5.1 to meet Apple's iCloud terms
+				// (they don't want non-user-generated data in Documents)
+				string documentsPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal); // Documents folder
+				string libraryPath = Path.Combine (documentsPath, "..", "Library"); // Library folder
+				#endif
+				var path = Path.Combine (libraryPath, sqliteFilename);
+				#endif
+
+				#endif
+				return path;	
+			}
 		}
 
-		public IEnumerable<Task> GetItems ()
+		/// <summary>Convert from DataReader to Transaction object</summary>
+		object FromReader (string entityType, SqliteDataReader r) {
+			switch (entityType) {
+			case "Transaction":
+
+					var t = new Transaction ();
+					t.Id = Convert.ToInt32 (r ["_id"]);
+					t.TransactionType = (TransactionType)r ["TransactionType"];
+					t.Amount = r ["Amount"];
+					t.DateTime = DateTime (r ["TimeStamp"]);
+					t.TransactionSource = (TransactionSource)r ["TransactionSource"];
+					t.Comment = r ["Comment"].toString ();
+					return t;
+				
+			case "Account":
+
+			case "Category":
+			default:
+				throw new Exception ();
+			}
+
+		}
+
+		public IEnumerable<object> GetItems ()
 		{
 			var tl = new List<Task> ();
 
@@ -64,10 +113,10 @@ namespace CM.Core
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
 				using (var contents = connection.CreateCommand ()) {
-					contents.CommandText = "SELECT [_id], [Name], [Notes], [Done] from [Items]";
+					contents.CommandText = "SELECT [_id], [transactionType], [Amount], [TransactionSource],[Comment],[TimeStamp] from [Items]";
 					var r = contents.ExecuteReader ();
 					while (r.Read ()) {
-						tl.Add (FromReader(r));
+						tl.Add (FromReader("Transaction",r));
 					}
 				}
 				connection.Close ();
@@ -75,7 +124,7 @@ namespace CM.Core
 			return tl;
 		}
 
-		public Task GetItem (int id) 
+		public object GetItem (int id) 
 		{
 			var t = new Task ();
 			lock (locker) {
@@ -95,7 +144,7 @@ namespace CM.Core
 			return t;
 		}
 
-		public int SaveItem (Task item) 
+		public int SaveItem (string entityType,object item) 
 		{
 			int r;
 			lock (locker) {

@@ -35,6 +35,10 @@ namespace CM.Core.BusinessEntities
 		public Transaction()
 		{
 		}
+		//public Transaction(int id, TransactionType type, TransactionSource source, double amount, DateTime timestamp, string Comment)
+		//{
+
+	//	}
 		public int Id{ get; set;}
 		public TransactionType Type{ get; set;}
 		//- Account.Id

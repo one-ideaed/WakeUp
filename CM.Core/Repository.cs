@@ -4,6 +4,8 @@ using System.IO;
 
 namespace CM.Core {
 	public class Repository {
+
+		// no need any more. dbPath moved to Database class
 		Database db = null;
 		protected static string dbLocation;		
 		protected static Repository me;		
