@@ -23,6 +23,10 @@ namespace CM.Core
 			db = new Database ();
 		}
 
+		static string SelectTransactionStr="SELECT [_id], [TType], [Amount], [TSource],[Comment],[TimeStamp] from [Transactions]";
+		static string SelectCategoryStr="";
+		static string SelectAccountStr="";
+
 		//create somewhere a number of strings with command texts to switch getItem,getItems,saveItem and deleteItem methods
 
 
@@ -38,7 +42,9 @@ namespace CM.Core
 
 				connection.Open ();
 				var commands = new[] {
-					"CREATE TABLE [Transactions] (_id INTEGER PRIMARY KEY ASC, TransactionType INTEGER, TransactionSource INTEGER, Amount REAL,TimeStamp INTEGER, Comment NTEXT);"
+					"CREATE TABLE [Transactions] (_id INTEGER PRIMARY KEY ASC AUTOINCREMENT, TType INTEGER, TSource INTEGER, Amount REAL,TimeStamp DATETIME, Comment NTEXT);"+
+					"CREATE TABLE [Accounts](_id INTEGER PRIMARY KEY ASC AUTOINCREMENT, Balance REAL, Name varchar(50), Comment varchar(50))"+
+					""
 					//add other tables
 				};
 				foreach (var command in commands) {
@@ -82,41 +88,38 @@ namespace CM.Core
 			}
 		}
 
-		/// <summary>Convert from DataReader to Transaction object</summary>
-		object FromReader (string entityType, SqliteDataReader r) {
-			switch (entityType) {
-			case "Transaction":
-
-					var t = new Transaction ();
-					t.Id = Convert.ToInt32 (r ["_id"]);
-					t.TransactionType = (TransactionType)r ["TransactionType"];
-					t.Amount = r ["Amount"];
-					t.DateTime = DateTime (r ["TimeStamp"]);
-					t.TransactionSource = (TransactionSource)r ["TransactionSource"];
-					t.Comment = r ["Comment"].toString ();
-					return t;
-				
-			case "Account":
-
-			case "Category":
-			default:
-				throw new Exception ();
-			}
-
+		private string DateTimeSQLite(DateTime datetime)
+		{
+			string dateTimeFormat = "{0}-{1}-{2} {3}:{4}:{5}.{6}";
+			return string.Format(dateTimeFormat, datetime.Year,
+				datetime.Month, datetime.Day, datetime.Hour, datetime.Minute, datetime.Second,datetime.Millisecond);
 		}
 
-		public IEnumerable<object> GetItems ()
+		/// <summary>Convert from DataReader to Transaction object</summary>
+		private Transaction  TransFromReader ( SqliteDataReader r) 
 		{
-			var tl = new List<Task> ();
+			var t = new Transaction ();
+			t.Id = Convert.ToInt32 (r ["_id"]);
+			t.TransactionType = (TransactionType)r ["TType"];
+			t.Amount = Convert.ToDouble( r ["Amount"]);
+			t.DateTime =  (DateTime)r ["TimeStamp"];
+			t.TransactionSource = (TransactionSource)r ["TSource"];
+			t.Comment = r ["Comment"].toString ();
+			return t;
+		}
+
+		public IEnumerable<Transaction> GetTransactions ()
+		{
+			var tl = new List<Transactions> ();
 
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
 				using (var contents = connection.CreateCommand ()) {
-					contents.CommandText = "SELECT [_id], [transactionType], [Amount], [TransactionSource],[Comment],[TimeStamp] from [Items]";
+					contents.CommandText = SelectTransactionStr;
 					var r = contents.ExecuteReader ();
 					while (r.Read ()) {
-						tl.Add (FromReader("Transaction",r));
+						tl.Add (TransFromReader(r));
 					}
 				}
 				connection.Close ();
@@ -124,14 +127,14 @@ namespace CM.Core
 			return tl;
 		}
 
-		public object GetItem (int id) 
+		public object Gettransaction (int id) 
 		{
-			var t = new Task ();
+			var t = new Transaction ();
 			lock (locker) {
 				connection = new SqliteConnection ("Data Source=" + path);
 				connection.Open ();
 				using (var command = connection.CreateCommand ()) {
-					command.CommandText = "SELECT [_id], [Name], [Notes], [Done] from [Items] WHERE [_id] = ?";
+					command.CommandText = SelectTransactionStr+" WHERE [_id] = ?";
 					command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = id });
 					var r = command.ExecuteReader ();
 					while (r.Read ()) {
@@ -144,7 +147,7 @@ namespace CM.Core
 			return t;
 		}
 
-		public int SaveItem (string entityType,object item) 
+		public int SaveTransaction (Transaction item) 
 		{
 			int r;
 			lock (locker) {
@@ -152,11 +155,13 @@ namespace CM.Core
 					connection = new SqliteConnection ("Data Source=" + path);
 					connection.Open ();
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "UPDATE [Items] SET [Name] = ?, [Notes] = ?, [Done] = ? WHERE [_id] = ?;";
-						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
-						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Notes });
-						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Done });
-						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.ID });
+						command.CommandText = "UPDATE [Transactions] SET [TType] = ?, [Amount] = ?, [TSource] = ?, [Comment]=?, [TimeStamp]=? WHERE [_id] = ?;";
+						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = (int)item.TransactionType });
+						command.Parameters.Add (new SqliteParameter (DbType.Real)  { Value = item.Amount });
+						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = (int)item.TransactionSource });
+						command.Parameters.Add (new SqliteParameter (DbType.String) { Value=item.Comment});
+						command.Parameters.Add (new SqliteParameter (DbType.DateTime) { Value=item.TimeStamp});
+						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Id });
 						r = command.ExecuteNonQuery ();
 					}
 					connection.Close ();
@@ -165,10 +170,12 @@ namespace CM.Core
 					connection = new SqliteConnection ("Data Source=" + path);
 					connection.Open ();
 					using (var command = connection.CreateCommand ()) {
-						command.CommandText = "INSERT INTO [Items] ([Name], [Notes], [Done]) VALUES (? ,?, ?)";
-						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Name });
-						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Notes });
-						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = item.Done });
+						command.CommandText = "INSERT INTO [Transactions] ([TType], [Amount], [TSource],[Comment],[TimeStamp]) VALUES (? ,?, ?,?,?)";
+						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = (int)item.TransactionTypy });
+						command.Parameters.Add (new SqliteParameter (DbType.Real) { Value = item.Amount });
+						command.Parameters.Add (new SqliteParameter (DbType.Int32) { Value = (int)item.TransactionSource });
+						command.Parameters.Add (new SqliteParameter (DbType.String) { Value = item.Comment });
+						command.Parameters.Add (new SqliteParameter (DbType.DateTime) { Value = item.Comment });
 						r = command.ExecuteNonQuery ();
 					}
 					connection.Close ();

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CM.Core.BusinessEntities;
 
 namespace CM.Core {
 	/// <summary>
@@ -12,24 +13,67 @@ namespace CM.Core {
 		{
 		}
 		
+		//Transaction Interface
 		public static Transaction GetTransaction(int id)
 		{
-			return Database.GetItem("Transaction",id);
+			return Database.GetTransaction(id);
 		}
 		
-		public static IList<Task> GetTransactions ()
+		public static IList<Transaction> GetTransactions ()
 		{
-			return new List<Task>(Database.GetItems("Transaction"));
+			return new List<Transaction>(Database.GetTransactions());
 		}
 		
 		public static int SaveTransaction (Transaction item)
 		{
-			return Database.SaveItem("Transaction",item);
+			return Database.SaveTransaction(item);
 		}
 		
 		public static int DeleteTransaction(int id)
 		{
-			return Database.DeleteItem("Transaction",id);
+			return Database.DeleteTransaction(id);
+		}
+
+		//Account Interface
+		public static Account GetAccount(int id)
+		{
+			return Database.GetAccount(id);
+		}
+
+		public static IList<Account> GetAccounts ()
+		{
+			return new List<Account>(Database.GetAccounts());
+		}
+
+		public static int SaveAccount (Account item)
+		{
+			return Database.SaveAccount(item);
+		}
+
+		public static int DeleteAccount(int id)
+		{
+			return Database.DeleteAccount(id);
+		}
+
+		//Category Interface
+		public static Category GetCategory(int id)
+		{
+			return Database.GetCategory(id);
+		}
+
+		public static IList<Category> GetCategories ()
+		{
+			return new List<Category>(Database.GetCategories());
+		}
+
+		public static int SaveCategory (Category item)
+		{
+			return Database.SaveCategory(item);
+		}
+
+		public static int DeleteCategory(int id)
+		{
+			return Database.DeleteCategory(id);
 		}
 	}
 }
