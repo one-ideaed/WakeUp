@@ -12,6 +12,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)BusinessEntities.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Database.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Manager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Repository.cs" />
   </ItemGroup>
 </Project>

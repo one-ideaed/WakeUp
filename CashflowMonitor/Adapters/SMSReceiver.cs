@@ -7,7 +7,7 @@ using Android.Widget;
 using Android.Util;
 using Android.Telephony;
 using System.Text;
-using Tasky.Core;
+using CM.Core;
 using TaskyAndroid;
 
 
@@ -38,7 +38,7 @@ namespace TaskyAndroid.SMS
 
 						//Log.Info("SmsReceiver", "SMS Received from: " + msgs[i].OriginatingAddress);
 						//Log.Info("SmsReceiver", "SMS Data: " + msgs[i].MessageBody.ToString());
-						Task task = new Task ();
+						Transaction task = new Task ();
 						task.Name = msgs [i].OriginatingAddress;
 						task.Notes = msgs [i].MessageBody.ToString ();
 						TaskManager.SaveTask (task);

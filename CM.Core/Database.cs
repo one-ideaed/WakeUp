@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Mono.Data.Sqlite;
 using System.IO;
 using System.Data;
+using CM.Core.BusinessEntities;
 
 namespace CM.Core
 {
