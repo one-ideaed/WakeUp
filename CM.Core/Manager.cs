@@ -34,6 +34,7 @@ namespace CM.Core {
 			return Database.DeleteTransaction(id);
 		}
 
+		/* TODO
 		//Account Interface
 		public static Account GetAccount(int id)
 		{
@@ -75,5 +76,7 @@ namespace CM.Core {
 		{
 			return Database.DeleteCategory(id);
 		}
+
+*/
 	}
 }

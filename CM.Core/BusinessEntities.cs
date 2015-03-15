@@ -2,6 +2,7 @@
 
 namespace CM.Core.BusinessEntities
 {
+
 	/*
 	Transaction types
 	*/
@@ -77,4 +78,5 @@ namespace CM.Core.BusinessEntities
 		public string Comment{ get; set;}
 	}
 }
+
 

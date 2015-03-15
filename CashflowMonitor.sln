@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CashflowMonitor", "Cashflow
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CM.Core", "CM.Core\CM.Core.shproj", "{08495AEC-939F-4493-898E-CFA9BDC09087}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CM.Core", "CM.Core\CM.Core.shproj", "{08495AEC-939F-4493-898E-CFA9BDC09087}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

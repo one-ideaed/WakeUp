@@ -1,22 +1,22 @@
 ﻿<Properties StartupItem="CashflowMonitor\CashflowMonitor.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.AVD_for_Nexus_7_2012_by_Google" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CashflowMonitor\Adapters\SMSReceiver.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CashflowMonitor\MainActivity.cs">
     <Files>
+      <File FileName="CashflowMonitor\Adapters\SMSReceiver.cs" Line="25" Column="25" />
       <File FileName="CM.Core\BusinessEntities.cs" Line="1" Column="1" />
-      <File FileName="CM.Core\Database.cs" Line="11" Column="11" />
-      <File FileName="CM.Core\Repository.cs" Line="3" Column="3" />
-      <File FileName="CM.Core\Manager.cs" Line="46" Column="46" />
-      <File FileName="CashflowMonitor\Adapters\SMSReceiver.cs" Line="7" Column="7" />
+      <File FileName="CM.Core\Database.cs" Line="32" Column="32" />
+      <File FileName="d:\XamarinSource\CashflowMonitor\CM.Core\Manager.cs" Line="31" Column="31" />
+      <File FileName="CashflowMonitor\MainActivity.cs" Line="14" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <RunToCursorBreakpoint file="D:\XamarinSource\CashflowMonitor\CM.Core\Database.cs" line="91" column="40" />
-      <Breakpoint file="D:\XamarinSource\CashflowMonitor\CashflowMonitor\Adapters\SMSReceiver.cs" line="10" column="1" />
+      <Breakpoint file="D:\XamarinSource\CashflowMonitor\CashflowMonitor\MainActivity.cs" line="28" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <DisabledProjects>
     <String>CM.Core\CM.Core.shproj</String>
   </DisabledProjects>
+  <MonoDevelop.Ide.ItemProperties.CashflowMonitor AndroidDesignerPreferredDevice="Nexus 4" />
 </Properties>
