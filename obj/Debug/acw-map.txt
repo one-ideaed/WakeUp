@@ -1,0 +1,5 @@
+HelloTabsICS.Activity1;hellotabsics.Activity1
+HelloTabsICS.Activity1.FragmentSetting;hellotabsics.Activity1_FragmentSetting
+HelloTabsICS.Activity1.FragmentData;hellotabsics.Activity1_FragmentData
+HelloTabsICS.Activity1.FragmentHallo;hellotabsics.Activity1_FragmentHallo
+HelloTabsICS.Activity1.FragmentReport;hellotabsics.Activity1_FragmentReport
