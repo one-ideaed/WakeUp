@@ -15,6 +15,7 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <AssemblyName>CashflowMonitor</AssemblyName>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <TargetFrameworkVersion>v2.3</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,9 +61,14 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
-  <Import Project="..\CM.Core\CM.Core.projitems" Label="Shared" Condition="Exists('..\CM.Core\CM.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Adapters\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CashflowMonitor.Core\CashflowMonitor.Core.csproj">
+      <Project>{64DB4C26-7B63-4692-A515-F90DB452FF90}</Project>
+      <Name>CashflowMonitor.Core</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

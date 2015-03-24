@@ -1,6 +1,6 @@
 ﻿using System;
-using CM.Core;
-using CM.Core.BusinessEntities;
+using CashflowMonitor.Core;
+using CashflowMonitor.Core.BusinessEntities;
 using Android.App;
 using Android.Content;
 using Android.Runtime;

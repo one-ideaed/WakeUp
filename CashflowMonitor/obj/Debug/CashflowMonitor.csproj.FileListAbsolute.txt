@@ -1,0 +1,17 @@
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\CashflowMonitor.dll
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\CashflowMonitor.pdb
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\CashflowMonitor.dll.mdb
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\CashflowMonitor.dll
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\CashflowMonitor.pdb
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\res\layout\main.xml
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\res\values\strings.xml
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\res\drawable\icon.png
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\R.cs.flag
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\uploadflags.txt
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\CashflowMonitor.csprojResolveAssemblyReference.cache
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\com.xamarin.samples.taskyandroid.apk
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\com.xamarin.samples.taskyandroid-Signed.apk
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\CashflowMonitor.Core.dll
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\CashflowMonitor.Core.pdb
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\CashflowMonitor.Core.dll.mdb
+D:\XamarinSource\CashflowMonitor\CashflowMonitor\obj\Debug\android\bin\com.xamarin.samples.taskyandroid.apk

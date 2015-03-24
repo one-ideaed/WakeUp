@@ -7,8 +7,7 @@ using Android.Widget;
 using Android.Util;
 using Android.Telephony;
 using System.Text;
-using CM.Core;
-using TaskyAndroid;
+using CashflowMonitor.Core;
 
 
 namespace TaskyAndroid.SMS
@@ -38,10 +37,10 @@ namespace TaskyAndroid.SMS
 
 						//Log.Info("SmsReceiver", "SMS Received from: " + msgs[i].OriginatingAddress);
 						//Log.Info("SmsReceiver", "SMS Data: " + msgs[i].MessageBody.ToString());
-						Transaction task = new Task ();
-						task.Name = msgs [i].OriginatingAddress;
-						task.Notes = msgs [i].MessageBody.ToString ();
-						TaskManager.SaveTask (task);
+						//Transaction task = new Task ();
+						//task.Name = msgs [i].OriginatingAddress;
+						//task.Notes = msgs [i].MessageBody.ToString ();
+						//TaskManager.SaveTask (task);
 					}
 
 					Log.Info("SmsReceiver", "SMS Received");

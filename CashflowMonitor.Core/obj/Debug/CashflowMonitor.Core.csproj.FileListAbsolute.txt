@@ -1,0 +1,11 @@
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.dll
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.pdb
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.dll.mdb
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.apk
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core-Signed.apk
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\CashflowMonitor.Core.dll
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\CashflowMonitor.Core.pdb
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\android\bin\CashflowMonitor.Core.apk
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\res\values\strings.xml
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\R.cs.flag
+D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\uploadflags.txt
