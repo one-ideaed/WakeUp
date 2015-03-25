@@ -6,7 +6,7 @@ namespace CashflowMonitor.Core.BusinessEntities
 	/*
 	Transaction types
 	*/
-	public enum TransactionType{
+	public enum TransactionType: int {
 		Income=1,
 		Expense=-1,
 		Reallocation=0
@@ -15,7 +15,7 @@ namespace CashflowMonitor.Core.BusinessEntities
 	/*
 	 * Transaction Source
 	 */
-	public enum TransactionSource{
+	public enum TransactionSource:int{
 		Manual=0,
 		SMS=1
 	}
@@ -23,7 +23,7 @@ namespace CashflowMonitor.Core.BusinessEntities
 	/*
 	 * Category types
 	 */
-	public enum CategoryType{
+	public enum CategoryType:int{
 		Income=1,
 		Expense=-1
 	}

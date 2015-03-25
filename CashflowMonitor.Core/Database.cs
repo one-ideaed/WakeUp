@@ -5,6 +5,7 @@ using Mono.Data.Sqlite;
 using System.IO;
 using System.Data;
 using CashflowMonitor.Core.BusinessEntities;
+using Android.Util;
 
 namespace CashflowMonitor.Core
 {
@@ -14,7 +15,7 @@ namespace CashflowMonitor.Core
 
 		static object locker=new object();
 		protected static SqliteConnection connection;
-		protected static string dbPath;
+		protected static string connectionString;
 		protected static Database db;
 		static Database()
 		{
@@ -24,23 +25,23 @@ namespace CashflowMonitor.Core
 		}
 
 		static string SelectTransactionStr ="SELECT[_id],[TType],[Amount],[TSource],[Comment],[TimeStamp]from[Transactions]";
-		static string SelectCategoryStr="";
-		static string SelectAccountStr="";
+		//static string SelectCategoryStr="";
+		//static string SelectAccountStr="";
 
 		//createsomewhereanumberofstringswithcommandtextstoswitchgetItem,getItems,saveItemanddeleteItemmethods
 
 		protected Database()
 
 		{
-			dbPath=dbFilePath;
+			connectionString="Data Source="+dbFilePath;
 			//createthetables
-			bool exists=File.Exists(dbPath);
+			bool exists=File.Exists(dbFilePath);
 			if(!exists){
-				connection=new SqliteConnection("URI=file:data\\data\\com.iso.cashflowmonitor\\CashFlowDB.db3");
+				connection=new SqliteConnection(connectionString);
 				connection.Open();
 				var commands=new[]{
-					"CREATETABLE[Transactions](_idINTEGERPRIMARYKEYASCAUTOINCREMENT,TTypeINTEGER,TSourceINTEGER,AmountREAL,TimeStampDATETIME,CommentNTEXT);"
-//					"CREATETABLE[Accounts](_idINTEGERPRIMARYKEYASCAUTOINCREMENT,BalanceREAL,Namevarchar(50),Commentvarchar(50))"+
+					"CREATE TABLE[Transactions](_id INTEGER PRIMARY KEY ASC AUTOINCREMENT,TType INTEGER,TSource INTEGER,Amount REAL,TimeStamp DATETIME,Comment NTEXT);"
+//					"CREATE TABLE[Accounts](_id INTEGER PRIMARY KEY ASC AUTOINCREMENT,Balance REAL,Name varchar(50),Comment varchar(50))"+
 					//addothertables
 				};
 				foreach(var command in commands){
@@ -98,12 +99,21 @@ namespace CashflowMonitor.Core
 		private static Transaction TransFromReader(SqliteDataReader r)
 		{
 			var t=new Transaction();
-			t.Id=Convert.ToInt32(r["_id"]);
-			t.Type=(TransactionType)r["TType"];
-			t.Amount=Convert.ToDouble(r["Amount"]);
-			t.TimeStamp=(DateTime)r["TimeStamp"];
-			t.Source=(TransactionSource)r["TSource"];
-			t.Comment=r["Comment"].ToString();
+			try
+			{
+				t.Id=Convert.ToInt32(r["_id"]);
+				t.Type=(TransactionType)Enum.Parse(typeof(TransactionType),r["TType"].ToString());
+				t.Amount=Convert.ToDouble(r["Amount"]);
+				t.TimeStamp=DateTime.Parse(r["TimeStamp"].ToString());
+				DateTime ttt=(DateTime)r["TimeStamp"];
+				t.Source=(TransactionSource)Enum.Parse(typeof(TransactionSource),r["TSource"].ToString());
+				t.Comment=r["Comment"].ToString();
+			}
+			catch (InvalidCastException e) 
+			{
+				Log.Error ("CashFlow", e.Message);
+			}
+
 			return t;
 
 		}
@@ -114,7 +124,7 @@ namespace CashflowMonitor.Core
 			var tl=new List<Transaction>();
 
 			lock(locker){
-				connection=new SqliteConnection("DataSource="+dbPath);
+				connection=new SqliteConnection(connectionString);
 				connection.Open();
 				using(var contents=connection.CreateCommand()){
 					contents.CommandText=SelectTransactionStr;
@@ -136,7 +146,7 @@ namespace CashflowMonitor.Core
 
 			lock(locker){
 
-				connection=new SqliteConnection("DataSource="+dbPath);
+				connection=new SqliteConnection(connectionString);
 
 				connection.Open();
 
@@ -178,7 +188,7 @@ namespace CashflowMonitor.Core
 
 				if(item.Id!=0){
 
-					connection=new SqliteConnection("DataSource="+dbPath);
+					connection=new SqliteConnection(connectionString);
 
 					connection.Open();
 
@@ -208,13 +218,13 @@ namespace CashflowMonitor.Core
 
 				}else{
 
-					connection=new SqliteConnection("DataSource="+dbPath);
+					connection=new SqliteConnection(connectionString);
 
 					connection.Open();
 
 					using(var command=connection.CreateCommand()){
 
-						command.CommandText="INSERTINTO[Transactions]([TType],[Amount],[TSource],[Comment],[TimeStamp])VALUES(?,?,?,?,?)";
+						command.CommandText="INSERT INTO[Transactions]([TType],[Amount],[TSource],[Comment],[TimeStamp])VALUES(?,?,?,?,?)";
 
 						command.Parameters.Add(new SqliteParameter(DbType.Int32){Value=(int)item.Type});
 
@@ -224,7 +234,7 @@ namespace CashflowMonitor.Core
 
 						command.Parameters.Add(new SqliteParameter(DbType.String){Value=item.Comment});
 
-						command.Parameters.Add(new SqliteParameter(DbType.DateTime){Value=item.Comment});
+						command.Parameters.Add(new SqliteParameter(DbType.DateTime){Value=item.TimeStamp});
 
 						r=command.ExecuteNonQuery();
 
@@ -250,13 +260,13 @@ namespace CashflowMonitor.Core
 
 				int r;
 
-				connection=new SqliteConnection("DataSource="+dbPath);
+				connection=new SqliteConnection(connectionString);
 
 				connection.Open();
 
 				using(var command=connection.CreateCommand()){
 
-					command.CommandText="DELETEFROM[Transactions]WHERE[_id]=?;";
+					command.CommandText="DELETE FROM[Transactions]WHERE[_id]=?;";
 
 					command.Parameters.Add(new SqliteParameter(DbType.Int32){Value=id});
 
