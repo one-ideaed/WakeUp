@@ -1,2 +1,3 @@
 CashflowMonitor.MainActivity;cashflowmonitor.MainActivity
 TaskyAndroid.SMS.SmsReceiver;taskyandroid.sms.SmsReceiver
+CashflowMonitor.DateField;cashflowmonitor.DateField

@@ -1,2 +1,2 @@
-D:\XamarinSource\CashflowMonitor\CashflowMonitor\bin\Debug\CashflowMonitor.dll
-D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.dll
+C:\Users\Ivan\Documents\Projects\CashflowMonitor\bin\Debug\CashflowMonitor.dll
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.dll
