@@ -8,6 +8,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using TaskyAndroid.SMS;
 
 
 namespace CashflowMonitor
@@ -17,6 +18,8 @@ namespace CashflowMonitor
 	{
 	    public const int DATE_DIALOG_ID = 0;
 		int count = 1;
+		TransactionManager transManager;
+		SmsReceiver smsReceiver;
 		DateField dateFld1;
 		DateField dateFld2;
 		protected override void OnCreate (Bundle bundle)
@@ -26,36 +29,28 @@ namespace CashflowMonitor
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
 		
+			// Create two date fields
 			dateFld1 = (DateField)FindViewById<DateField> (Resource.Id.dateFld1);
 			dateFld2 = (DateField)FindViewById<DateField> (Resource.Id.dateFld2);
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			Button button = FindViewById<Button> (Resource.Id.myButton);
-			Transaction tr = new Transaction ();
-			Random random = new Random ();
-			tr.Amount = random.NextDouble() ;
-			tr.Comment = "First transaction";
-			tr.Source = TransactionSource.Manual;
-			tr.Type = TransactionType.Expense;
-			tr.TimeStamp = DateTime.Now;
-			//Manager dbmanager = new Manager ();
-			var res=Manager.SaveTransaction(tr);
-			IList<Transaction>  translist = Manager.GetTransactions ();
-			String[] tv = new string[translist.Count];
-			for (int i = 0; i < translist.Count; i++) {
-				String s = "Amount = " + Math.Round(translist [i].Amount, 2) + "   Date = " + translist [i].TimeStamp.ToString();
-				tv.SetValue (s, i);
+			// Init Transaction list 
+		    transManager = new TransactionManager ();
+			IList<Transaction> tl= Manager.GetTransactions ();
+			if (tl.Count == 0) {  // create two dummy transactions
+				transManager.Save (transManager.CreateDummyTransaction ());
+				transManager.Save (transManager.CreateDummyTransaction ());
 			}
-			var adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItemChecked,tv);
-			ListAdapter = adapter;
-
-
+			ListAdapter = transManager.ShowAll (this);
+		
+			// Just a useless feature
+			Button button = FindViewById<Button> (Resource.Id.myButton);
 			button.Click += delegate {
 				button.Text = string.Format ("{0} clicks!", count++);
 			};
-		//	(FindViewById<ListView> (Resource.Id.list)).Adapter = adapter;
+
+			RegisterSmsReceiver ();
 		}
+
 		protected override Dialog OnCreateDialog (int id)
 		{
 			switch (id) {
@@ -64,7 +59,28 @@ namespace CashflowMonitor
 			}
 			return null;
 		}
+
+		private void RegisterSmsReceiver()
+		{
+			smsReceiver = new SmsReceiver ();
+			smsReceiver.MainActivity = this;
+			IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+			this.RegisterReceiver(smsReceiver, intentFilter);
+		}
+
+		public void HandleNewTransaction(Transaction tr)
+		{
+			TransManager.Save (tr);
+			ListAdapter = TransManager.ShowAll(this);
+		}
+
+		public TransactionManager TransManager {
+			get {
+				return transManager;
+			}
+		}
 	}
 }
+
 
 

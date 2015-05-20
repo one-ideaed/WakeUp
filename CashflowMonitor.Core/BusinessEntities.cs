@@ -9,6 +9,7 @@ namespace CashflowMonitor.Core.BusinessEntities
 	public enum TransactionType: int {
 		Income=1,
 		Expense=-1,
+		Blocking=-2,
 		Reallocation=0
 	}
 
@@ -33,13 +34,6 @@ namespace CashflowMonitor.Core.BusinessEntities
 	 */
 	public class Transaction
 	{
-		public Transaction()
-		{
-		}
-		//public Transaction(int id, TransactionType type, TransactionSource source, double amount, DateTime timestamp, string Comment)
-		//{
-
-	//	}
 		public int Id{ get; set;}
 		public TransactionType Type{ get; set;}
 		//- Account.Id
@@ -48,7 +42,22 @@ namespace CashflowMonitor.Core.BusinessEntities
 		public DateTime TimeStamp{ get; set;}
 		public string Comment{ get; set;}
 		//- Counterparty.Id
+	
+		public Transaction()
+		{
+		}
+
+		public Transaction(int id, DateTime timestamp, double amount, TransactionType type, TransactionSource source, string comment)
+		{
+			Id = id; 
+			TimeStamp = timestamp; 
+			Amount = amount; 
+			Type = type; 
+			Source = source; 
+			Comment = comment;
+		}
 	}
+
 
 	/*
 	 * Income/Expense Category class

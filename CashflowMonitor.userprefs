@@ -1,24 +1,8 @@
-﻿<Properties StartupItem="CashflowMonitor\CashflowMonitor.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.MonoForAndroid_API_10" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="CashflowMonitor.Core\Manager.cs">
-    <Files>
-      <File FileName="CashflowMonitor\MainActivity.cs" Line="1" Column="1" />
-      <File FileName="CashflowMonitor.Core\BusinessEntities.cs" Line="31" Column="31" />
-      <File FileName="CashflowMonitor.Core\Database.cs" Line="1" Column="1" />
-      <File FileName="CashflowMonitor.Core\Manager.cs" Line="1" Column="1" />
-      <File FileName="CashflowMonitor\Adapters\SMSReceiver.cs" Line="4" Column="4" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+﻿<Properties GitUserInfo="UsingGIT" StartupItem="CashflowMonitor\CashflowMonitor.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Art" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="D:\XamarinSource\CashflowMonitor\CM.Core\Database.cs" line="35" column="1" />
-      <Breakpoint file="D:\XamarinSource\CashflowMonitor\CM.Core\Database.cs" line="62" column="1" />
-      <Breakpoint file="D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\Database.cs" line="39" column="102" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <DisabledProjects>
-    <String>CM.Core\CM.Core.shproj</String>
-  </DisabledProjects>
-  <MonoDevelop.Ide.ItemProperties.CashflowMonitor AndroidDesignerPreferredDevice="Nexus 4" />
 </Properties>

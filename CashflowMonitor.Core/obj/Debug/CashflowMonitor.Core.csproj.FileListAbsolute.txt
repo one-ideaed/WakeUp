@@ -9,3 +9,14 @@ D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\android\bin\Cash
 D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\res\values\strings.xml
 D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\R.cs.flag
 D:\XamarinSource\CashflowMonitor\CashflowMonitor.Core\obj\Debug\uploadflags.txt
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.dll
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.pdb
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.dll.mdb
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core.apk
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\bin\Debug\CashflowMonitor.Core-Signed.apk
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\obj\Debug\CashflowMonitor.Core.dll
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\obj\Debug\CashflowMonitor.Core.pdb
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\obj\Debug\android\bin\CashflowMonitor.Core.apk
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\obj\Debug\res\values\strings.xml
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\obj\Debug\R.cs.flag
+C:\Users\Ivan\Documents\Projects\CashflowMonitor.Core\obj\Debug\uploadflags.txt

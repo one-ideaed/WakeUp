@@ -8,15 +8,18 @@ using Android.Util;
 using Android.Telephony;
 using System.Text;
 using CashflowMonitor.Core;
+using CashflowMonitor;
+using CashflowMonitor.Core.BusinessEntities;
 
 
 namespace TaskyAndroid.SMS
 {
-	[BroadcastReceiver(Enabled = true, Label = "SMS Receiver")]
-	[IntentFilter(new string[] { "android.provider.Telephony.SMS_RECEIVED" })] 
+	//[BroadcastReceiver(Enabled = true, Label = "SMS Receiver")]
+	//[IntentFilter(new string[] { "android.provider.Telephony.SMS_RECEIVED" })] 
 	public class SmsReceiver : Android.Content.BroadcastReceiver 
 	{
 		public static readonly string INTENT_ACTION = "android.provider.Telephony.SMS_RECEIVED"; 
+		private MainActivity mainActivity;
 
 		public override void OnReceive(Context context, Intent intent)
 		{
@@ -31,21 +34,37 @@ namespace TaskyAndroid.SMS
 
 					SmsMessage[] msgs;
 					msgs = new SmsMessage[pdus.Length];
+					SmsParser parser = new SmsParser ();
 
 					for (int i = 0; i < msgs.Length; i++) {
-						msgs [i] = SmsMessage.CreateFromPdu ((byte[])pdus [i]);
+						SmsMessage sms = SmsMessage.CreateFromPdu ((byte[])pdus [i]);
+						msgs [i] = sms;
 
-						//Log.Info("SmsReceiver", "SMS Received from: " + msgs[i].OriginatingAddress);
-						//Log.Info("SmsReceiver", "SMS Data: " + msgs[i].MessageBody.ToString());
-						//Transaction task = new Task ();
-						//task.Name = msgs [i].OriginatingAddress;
-						//task.Notes = msgs [i].MessageBody.ToString ();
-						//TaskManager.SaveTask (task);
+						if (IsFromBank (sms)) {
+							Transaction tr = parser.Parse (sms);
+							if (tr != null && mainActivity != null) {
+								mainActivity.HandleNewTransaction (tr);
+							}
+						}	 
 					}
-
+						
 					Log.Info("SmsReceiver", "SMS Received");
 				}
 			} 
+		}
+
+		private bool IsFromBank(SmsMessage sms)
+		{
+			return sms.OriginatingAddress.Equals ("729") ? true : false;
+		}
+
+		public MainActivity MainActivity {
+			get {
+				return mainActivity;
+			}
+			set {
+				mainActivity = value;
+			}
 		}
 	}
 }
