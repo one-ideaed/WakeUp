@@ -1,3 +1,12 @@
-CashflowMonitor.MainActivity;cashflowmonitor.MainActivity
-TaskyAndroid.SMS.SmsReceiver;taskyandroid.sms.SmsReceiver
-CashflowMonitor.DateField;cashflowmonitor.DateField
+CashflowMonitor.MainActivity, CashflowMonitor;md59550bb0a585f2edd8fcc71e71539c300.MainActivity
+CashflowMonitor.MainActivity, CashflowMonitor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md59550bb0a585f2edd8fcc71e71539c300.MainActivity
+CashflowMonitor.MainActivity;md59550bb0a585f2edd8fcc71e71539c300.MainActivity
+cashflowmonitor.MainActivity;md59550bb0a585f2edd8fcc71e71539c300.MainActivity
+TaskyAndroid.SMS.SmsReceiver, CashflowMonitor;md57e9c6d50191a0ff23fa0c8c094fc9ab7.SmsReceiver
+TaskyAndroid.SMS.SmsReceiver, CashflowMonitor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md57e9c6d50191a0ff23fa0c8c094fc9ab7.SmsReceiver
+TaskyAndroid.SMS.SmsReceiver;md57e9c6d50191a0ff23fa0c8c094fc9ab7.SmsReceiver
+taskyandroid.sms.SmsReceiver;md57e9c6d50191a0ff23fa0c8c094fc9ab7.SmsReceiver
+CashflowMonitor.DateField, CashflowMonitor;md59550bb0a585f2edd8fcc71e71539c300.DateField
+CashflowMonitor.DateField, CashflowMonitor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md59550bb0a585f2edd8fcc71e71539c300.DateField
+CashflowMonitor.DateField;md59550bb0a585f2edd8fcc71e71539c300.DateField
+cashflowmonitor.DateField;md59550bb0a585f2edd8fcc71e71539c300.DateField

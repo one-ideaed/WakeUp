@@ -31,7 +31,6 @@ namespace TaskyAndroid.SMS
 				if (bundle != null)
 				{
 					Java.Lang.Object[] pdus = (Java.Lang.Object[])bundle.Get("pdus");
-
 					SmsMessage[] msgs;
 					msgs = new SmsMessage[pdus.Length];
 					SmsParser parser = new SmsParser ();
@@ -39,23 +38,15 @@ namespace TaskyAndroid.SMS
 					for (int i = 0; i < msgs.Length; i++) {
 						SmsMessage sms = SmsMessage.CreateFromPdu ((byte[])pdus [i]);
 						msgs [i] = sms;
-
-						if (IsFromBank (sms)) {
-							Transaction tr = parser.Parse (sms);
-							if (tr != null && mainActivity != null) {
-								mainActivity.HandleNewTransaction (tr);
-							}
+						byte[] pdu = sms.GetPdu ();
+						Transaction tr = parser.Parse (sms);
+						if (tr != null && mainActivity != null) {
+							mainActivity.HandleNewTransaction (tr);
 						}	 
 					}
-						
 					Log.Info("SmsReceiver", "SMS Received");
 				}
 			} 
-		}
-
-		private bool IsFromBank(SmsMessage sms)
-		{
-			return sms.OriginatingAddress.Equals ("729") ? true : false;
 		}
 
 		public MainActivity MainActivity {

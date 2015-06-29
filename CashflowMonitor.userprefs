@@ -1,8 +1,27 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupItem="CashflowMonitor\CashflowMonitor.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Art" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Artamon2" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="CashflowMonitor\MainActivity.cs">
+    <Files>
+      <File FileName="CashflowMonitor\MainActivity.cs" Line="29" Column="51" />
+      <File FileName="CashflowMonitor\Adapters\SMSReceiver.cs" Line="1" Column="1" />
+      <File FileName="CashflowMonitor\Properties\AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="CashflowMonitor\TransactionManager.cs" Line="1" Column="1" />
+      <File FileName="CashflowMonitor.Core\BusinessEntities.cs" Line="1" Column="1" />
+      <File FileName="CashflowMonitor\DateField.cs" Line="1" Column="1" />
+      <File FileName="CashflowMonitor\SmsParser.cs" Line="1" Column="1" />
+      <File FileName="CashflowMonitor\Properties\AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="CashflowMonitor.Core\Database.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Ivan\Documents\Projects\CashflowMonitor\SmsParser.cs" line="14" column="1" />
+      <Breakpoint file="C:\Users\Ivan\Documents\Projects\CashflowMonitor\MainActivity.cs" line="92" column="1" />
+      <Breakpoint file="C:\Users\Ivan\Documents\Projects\CashflowMonitor\MainActivity.cs" line="38" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="CashflowMonitor\TransactionManager.cs" line="53" offsetX="888" offsetY="988" expression="tv" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.CashflowMonitor AndroidDeviceId-Debug="emulator-5554" />
 </Properties>

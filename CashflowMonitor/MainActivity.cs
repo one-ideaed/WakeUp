@@ -9,48 +9,61 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using TaskyAndroid.SMS;
+using System.Globalization;
+using Android.Telephony;
+using Android.Database;
+using Android.Provider;
 
 
 namespace CashflowMonitor
 {
 	[Activity (Label = "CashflowMonitor", MainLauncher = true, Icon = "@drawable/icon")]
-	public class MainActivity : Android.App.ListActivity//Activity
+	public class MainActivity : Android.App.ListActivity
 	{
 	    public const int DATE_DIALOG_ID = 0;
-		int count = 1;
-		TransactionManager transManager;
-		SmsReceiver smsReceiver;
-		DateField dateFld1;
-		DateField dateFld2;
+		private int count = 1;
+		private TransactionManager transManager;
+		private SmsReceiver smsReceiver;
+		private DateField dateFrom;
+		private DateField dateTo;
+
 		protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-		
-			// Create two date fields
-			dateFld1 = (DateField)FindViewById<DateField> (Resource.Id.dateFld1);
-			dateFld2 = (DateField)FindViewById<DateField> (Resource.Id.dateFld2);
 
 			// Init Transaction list 
-		    transManager = new TransactionManager ();
+			transManager = new TransactionManager (this);
+
+			// Create two date fields
+			dateFrom = (DateField)FindViewById<DateField> (Resource.Id.dateFld1);
+			dateFrom.Prefix = "From  ";
+			dateFrom.Date = transManager.GetOldestTransactionDate ();
+			dateTo = (DateField)FindViewById<DateField> (Resource.Id.dateFld2);
+			dateTo.Prefix = "To  ";
+			dateTo.Date = DateTime.Today;
+
+			//Show transactions in a list
 			IList<Transaction> tl= Manager.GetTransactions ();
-			if (tl.Count == 0) {  // create two dummy transactions
-				transManager.Save (transManager.CreateDummyTransaction ());
-				transManager.Save (transManager.CreateDummyTransaction ());
+			if (tl.Count == 0) {  
+				RegisterExistingSms ();
+			} else {
+				transManager.ShowTransactions (dateFrom.Date, dateTo.Date);
 			}
-			ListAdapter = transManager.ShowAll (this);
-		
+
+			//Allow us to proccess new incoming SMS
+			RegisterSmsReceiver ();
+
 			// Just a useless feature
 			Button button = FindViewById<Button> (Resource.Id.myButton);
 			button.Click += delegate {
 				button.Text = string.Format ("{0} clicks!", count++);
 			};
-
-			RegisterSmsReceiver ();
 		}
 
+		#pragma warning disable 0672	//we are guilty in overwriting deprecated method
 		protected override Dialog OnCreateDialog (int id)
 		{
 			switch (id) {
@@ -58,6 +71,33 @@ namespace CashflowMonitor
 				return DateField.generateDatePicker(); 
 			}
 			return null;
+		}
+
+		public void HandleNewTransaction(Transaction tr)
+		{
+			transManager.Save (tr);
+			transManager.ShowTransactions(dateFrom.Date, dateTo.Date);
+		}
+
+		public void OnDatePicked()
+		{
+			#pragma warning disable 0618	//we are guilty in using deprecated method
+			RemoveDialog (MainActivity.DATE_DIALOG_ID);
+			transManager.ShowTransactions (dateFrom.Date, dateTo.Date);
+		}
+
+		public void UpdateList(List<string> transactions)
+		{
+			if (ListAdapter == null)
+			{
+				ListAdapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, transactions);
+			}
+			else
+			{
+				ArrayAdapter aa = ListAdapter as ArrayAdapter;
+				aa.Clear();
+				aa.AddAll(transactions);
+			}
 		}
 
 		private void RegisterSmsReceiver()
@@ -68,15 +108,20 @@ namespace CashflowMonitor
 			this.RegisterReceiver(smsReceiver, intentFilter);
 		}
 
-		public void HandleNewTransaction(Transaction tr)
+		private void RegisterExistingSms()
 		{
-			TransManager.Save (tr);
-			ListAdapter = TransManager.ShowAll(this);
-		}
+			SmsParser parser = new SmsParser ();
 
-		public TransactionManager TransManager {
-			get {
-				return transManager;
+			ICursor c =  this.ContentResolver.Query (Telephony.Sms.Inbox.ContentUri, null, null, null, "date DESC");
+			while(c.MoveToNext())
+			{
+				string body = c.GetString (c.GetColumnIndexOrThrow("body"));
+				long time = c.GetLong (c.GetColumnIndexOrThrow("date"));
+				string address = c.GetString(c.GetColumnIndexOrThrow("address"));
+				Transaction tr = parser.Parse (body, time, address);
+				if (tr != null) {
+					transManager.Save (tr);
+				}
 			}
 		}
 	}

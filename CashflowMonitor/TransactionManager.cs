@@ -9,12 +9,14 @@ namespace CashflowMonitor
 {
 	public class TransactionManager
 	{
+		private List<Transaction> transList = null;
+		private MainActivity mainActivity = null;
 
-		private IList<Transaction> translist;
-
-		public TransactionManager ()
+		public TransactionManager (MainActivity ma)
 		{
-			translist = null;
+			mainActivity = ma;
+			transList = (List<Transaction>)Manager.GetTransactions ();
+			transList.Sort (CompareByDate);
 		}
 
 		public Transaction CreateDummyTransaction()
@@ -39,23 +41,49 @@ namespace CashflowMonitor
 		public void Save(Transaction tr)
 		{
 			var res=Manager.SaveTransaction(tr);
+			transList.Add (tr);
+			transList.Sort (CompareByDate);
 		}
 
-		public ArrayAdapter ShowAll(Context context)
+		public void ShowAllTransactions()
 		{
-			//Manager dbmanager = new Manager ();
-			translist = Manager.GetTransactions ();
-			String[] tv = new string[translist.Count];
-			for (int i = 0; i < translist.Count; i++) {
-				String s = "Amount = " + Math.Round(translist [i].Amount, 2) + "   Date = " + translist [i].TimeStamp.ToString();
-				tv.SetValue (s, i);
+			ShowTransactions (GetOldestTransactionDate(), DateTime.Today);
+		}
+
+		public void ShowTransactions(DateTime fromDate, DateTime toDate)
+		{
+			List<String> trlist = new List<String>();
+			for (int i = 0; i < transList.Count; i++) {
+				if (transList[i].TimeStamp>=fromDate && transList[i].TimeStamp<(toDate.AddDays(1)))     // we add 1 day to 'toDay' to also show transacton wich was made entire day 
+				{
+					int sign = transList [i].Type == TransactionType.Expense ? -1 : 1;
+					String s = "Amount = " + Math.Round(sign*transList [i].Amount, 2) + "   Date = " + transList [i].TimeStamp.ToString("d");
+					trlist.Add (s);
+				}
 			}
-		    return new ArrayAdapter<String>(context, Android.Resource.Layout.SimpleListItemChecked,tv);
+			mainActivity.UpdateList(trlist);
+		}	 
+
+		private static int CompareByDate(Transaction tr1, Transaction tr2)
+		{
+			if (tr1.TimeStamp > tr2.TimeStamp) {
+				return -1;
+			} else if (tr1.TimeStamp < tr2.TimeStamp) {
+				return 1;
+			} else {
+				return 0;
+			}
 		}
 
 		private int GenerateId()
 		{
 			return 0;
+		}
+
+		public DateTime GetOldestTransactionDate ()
+		{
+			DateTime d = transList [transList.Count-1].TimeStamp;
+			return d;
 		}
 	}
 }

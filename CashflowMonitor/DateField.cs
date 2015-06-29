@@ -12,6 +12,7 @@ namespace CashflowMonitor
 	{
 		private static DateField currentFld = null; 
 		private DateTime date;
+		private string prefix = "";
 
 		public static DateField CurrentFld {
 			get {
@@ -29,6 +30,7 @@ namespace CashflowMonitor
 			}
 			set {
 				date = value;
+				UpdateText ();
 			}
 		}
 
@@ -43,6 +45,15 @@ namespace CashflowMonitor
 		public int Day
 		{
 			get {return date.Day;}
+		}
+
+		public string Prefix {
+			get {
+				return prefix;
+			}
+			set {
+				prefix = value;
+			}
 		}
 
 		public DateField (Context context) :base(context)
@@ -64,29 +75,36 @@ namespace CashflowMonitor
 		{
 			init ();
 		}
-
+			
 		protected void init()
 		{
 			this.date = DateTime.Today;
-			this.Text = date.ToString ("d");
+			UpdateText ();
 			this.Click += delegate {
 				CurrentFld = this; 
+				#pragma warning disable 0618	//we are guilty in using deprecated method
 				(Context as Activity).ShowDialog (MainActivity.DATE_DIALOG_ID);	
-				//(Context as MainActivity)
 			};
 		}
+
 		// the event received when the user "sets" the date in the dialog
 		public void OnDateSet (object sender, DatePickerDialog.DateSetEventArgs e)
 		{
 			this.Date = e.Date;
-			Text = CurrentFld.date.ToString ("d");
-			(Context as MainActivity).RemoveDialog (MainActivity.DATE_DIALOG_ID);
+			UpdateText ();
+			(Context as MainActivity).OnDatePicked ();
 		}
 
 		public static DatePickerDialog generateDatePicker()
 		{
 			return new DatePickerDialog (CurrentFld.Context, CurrentFld.OnDateSet, CurrentFld.Year, CurrentFld.Month - 1, CurrentFld.Day);
 		}
+
+		private void UpdateText()
+		{
+			this.Text = prefix+Date.ToString ("d");
+		}
+
 	}
 }
 

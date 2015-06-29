@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.xamarin.samples.taskyandroid">
-  <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="10" />
-  <application android:label="CashflowMonitor" android:icon="@drawable/icon" android:name="mono.android.app.Application" android:debuggable="true">
-    <activity android:icon="@drawable/icon" android:label="CashflowMonitor" android:name="cashflowmonitor.MainActivity">
+  <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="19" />
+  <application android:label="CashflowMonitor" android:icon="@drawable/icon" android:debuggable="true" android:name="mono.android.app.Application">
+    <activity android:icon="@drawable/icon" android:label="CashflowMonitor" android:name="md59550bb0a585f2edd8fcc71e71539c300.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

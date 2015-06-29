@@ -1,26 +1,31 @@
 ﻿using System;
 using CashflowMonitor.Core.BusinessEntities;
 using Android.Telephony;
+using System.Globalization;
 
 namespace CashflowMonitor
 {
 	public class SmsParser
 	{
 		private Transaction tr;
-
-		public SmsParser() {}
+		private const string BANK_ADDRESS = "729";
 
 		public Transaction Parse(SmsMessage sms)
 		{
+			return Parse (sms.DisplayMessageBody, sms.TimestampMillis, sms.OriginatingAddress);
+		}
+			
+
+		public Transaction Parse(String text, long time, string address)
+		{
 			bool ok = true;
 			tr = null;  // refresh 
-			String text = sms.DisplayMessageBody;
-			if(text.Contains("UAH."))  // should we create transaction?
+			if(address == BANK_ADDRESS && text.Contains("UAH."))  // should we create transaction?
 			{
 				tr = new Transaction ();
 				tr.Source = TransactionSource.SMS;
 				DateTime start = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-				DateTime date= start.AddMilliseconds(sms.TimestampMillis).ToLocalTime();
+				DateTime date= start.AddMilliseconds(time).ToLocalTime();
 				tr.TimeStamp = date;
 				ok &= ParseTransactionType (text);
 				ok &= ParseAmount (text);
@@ -68,7 +73,7 @@ namespace CashflowMonitor
 		{
 			bool ok = false;
 
-			if (text.Contains ("Dostupniy zalyshok")) {
+			if (text.Contains ("Dostupnyi zalyshok")) {
 				string[] words = text.Split (' ');
 				string lastword = words [words.Length - 1]; // expected to have the remaining balance amount in the last word
 				double a = ExtractAmount(lastword); 
@@ -81,7 +86,7 @@ namespace CashflowMonitor
 		private double ExtractAmount(string word)
 		{
 			word = word.Remove (word.LastIndexOf ('U'));  //Remove "UAH."
-			return Double.Parse(word);
+			return Double.Parse(word, CultureInfo.GetCultureInfo("en-US"));
 		}
 	}
 }
